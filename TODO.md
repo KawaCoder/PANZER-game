@@ -4,12 +4,13 @@
 - [ ] Graphismes
     - [ ] Sprites
         - [ ] Zombies qui marchent
+        - [ ] Zombies qui volent ou avion (optionnel)
         - [ ] Canon (deux parties)
-    - [ ] Sol
-    - [ ] Arrière-plan
+    - [ ] Texture Sol (optionnel)
+    - [ ] Texture Arrière-plan (optionnel)
 
 
 - [ ] Jeu principal
     - [ ] Système de tir
         - [ ] Physique
-        - ( [ ] ) Twingo / 100
+        - [ ]  Twingo / 100 (optionnel)

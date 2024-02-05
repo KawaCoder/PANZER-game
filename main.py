@@ -11,10 +11,12 @@ width, height = screen_info.current_w, screen_info.current_h
 # Paramètres de la fenêtre
 floor_height = 100  # Hauteur du sol
 floor_color = (34, 139, 34)  # Vert foncé (couleur de l'herbe)
+sky_color = (0,255,255)
 
 # Création de la fenêtre en plein écran
 screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
-pygame.display.set_caption("Mon jeu Pygame - Scène avec Sol")
+screen.fill(sky_color)
+pygame.display.set_caption("PANZER")
 
 # Création de l'objet Clock
 clock = pygame.time.Clock()
