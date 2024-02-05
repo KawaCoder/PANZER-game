@@ -1,2 +1,2 @@
 # PANZER-game
-saucisse
+Python Apocalypse Nazi Zombie Eradication Regiment.
