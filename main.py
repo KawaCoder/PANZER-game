@@ -1,5 +1,8 @@
 import pygame
 import sys
+from zombie_manager import zombie_manager
+from zombax import zombax
+
 
 # Initialisation de Pygame
 pygame.init()
@@ -46,6 +49,18 @@ clock = pygame.time.Clock()
 alpha=360
 vitesse_initiale_lancer=10
 
+
+# Gestion du Zombax
+ZManager = zombie_manager(pygame)
+print(ZManager.getZombies())
+
+
+
+# Gestion du Zombax
+ZManager = zombie_manager(pygame)
+print(ZManager.getZombies())
+
+
 def rot_center(image, angle):
     rect_origine = image.get_rect()
     rotate_image = pygame.transform.rotate(image, angle)
@@ -64,7 +79,9 @@ while True:
                 
             if event.key == pygame.K_RIGHT and alpha>270:
                 alpha-=5
-                canon_image = rot_center(canon_image, -5)
+                canon_image = pygame.transform.rotate(canon_image, -5)
+            if event.key == pygame.K_UP:
+                print(ZManager.getZombies())
             
         if event.type == pygame.QUIT:
             pygame.quit()
