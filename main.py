@@ -32,16 +32,27 @@ zombie_image = pygame.transform.scale(zombie_image, (zombie_width, zombie_height
 canon_image_path = "assets/canon/canon_tuyaux.png"
 canon_width, canon_height = 50, 100
 canon_pos = [25,height-floor_height-100]
+a = pygame.draw.rect(screen, (0,0,0), (150,150,150,150))
+
 
 # Chargement de l'image du canon
 canon_image = pygame.image.load(canon_image_path).convert_alpha()
+rect_canon = canon_image.get_rect(center=(canon_pos))
 
 # Création de l'objet Clock
 clock = pygame.time.Clock()
 
 # paramètre du lancer
-alpha=335
+alpha=360
 vitesse_initiale_lancer=10
+
+def rot_center(image, angle):
+    rect_origine = image.get_rect()
+    rotate_image = pygame.transform.rotate(image, angle)
+    rotate_rect = rect_origine.copy()
+    rotate_rect.center = rotate_image.get_rect().center
+    rotate_image = rotate_image.subsurface(rotate_rect).copy()
+    return rotate_image
 
 # Boucle principale
 while True:
@@ -49,10 +60,11 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT and alpha<360:
                 alpha+=5
-                canon_image = pygame.transform.rotate(canon_image, +5)
+                canon_image = rot_center(canon_image, 5)
+                
             if event.key == pygame.K_RIGHT and alpha>270:
                 alpha-=5
-                canon_image = pygame.transform.rotate(canon_image, -5)
+                canon_image = rot_center(canon_image, -5)
             
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -71,7 +83,7 @@ while True:
 
     # Dessiner le canon
     pygame.draw.rect(screen, canon_color, (0, height-floor_height-50, 100,50))
-    screen.blit(canon_image, (canon_pos[0], canon_pos[1]))
+    screen.blit(canon_image, rect_canon)
     
 
     # Afficher le zombie
