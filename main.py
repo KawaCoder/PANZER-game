@@ -31,31 +31,32 @@ pygame.display.set_caption("Mon jeu Pygame - Zombie Shooter")
 zombie_image = pygame.image.load(zombie_image_path)
 zombie_image = pygame.transform.scale(zombie_image, (zombie_width, zombie_height))
 
+# Paramètre du canon 
+canon_image_path = "assets/canon/canon_tuyaux.png"
+canon_width, canon_height = 50, 100
+canon_pos = [25,height-floor_height-100]
+
+# Chargement de l'image du canon
+canon_image = pygame.image.load(canon_image_path).convert_alpha()
+
 # Création de l'objet Clock
 clock = pygame.time.Clock()
 
-# paramètre du canon
-alpha=45
-v0=10
-
-coord_canon=((100,100),(100,150),(125,150),(150,80))
-
-
-test = zombax(pygame)
-
-
-
+# paramètre du lancer
+alpha=335
+vitesse_initiale_lancer=10
 
 # Boucle principale
 while True:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_LEFT and alpha<90:
+            if event.key == pygame.K_LEFT and alpha<360:
                 alpha+=5
-            if event.key == pygame.K_LEFT and alpha<0:
+                canon_image = pygame.transform.rotate(canon_image, +5)
+            if event.key == pygame.K_RIGHT and alpha>270:
                 alpha-=5
-
-
+                canon_image = pygame.transform.rotate(canon_image, -5)
+            
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -73,7 +74,8 @@ while True:
 
     # Dessiner le canon
     pygame.draw.rect(screen, canon_color, (0, height-floor_height-50, 100,50))
-    pygame.draw.polygon(screen, canon_color, coord_canon)
+    screen.blit(canon_image, (canon_pos[0], canon_pos[1]))
+    
 
     # Afficher le zombie
     screen.blit(zombie_image, (zombie_pos[0], zombie_pos[1]))
