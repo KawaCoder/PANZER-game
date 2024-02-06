@@ -1,5 +1,8 @@
 import pygame
 import sys
+from zombie_manager import zombie_manager
+from zombax import zombax
+
 
 # Initialisation de Pygame
 pygame.init()
@@ -37,6 +40,12 @@ v0=10
 
 coord_canon=((100,100),(100,150),(125,150),(150,80))
 
+
+test = zombax(pygame)
+
+
+
+
 # Boucle principale
 while True:
     for event in pygame.event.get():
@@ -45,7 +54,8 @@ while True:
                 alpha+=5
             if event.key == pygame.K_LEFT and alpha<0:
                 alpha-=5
-            
+
+
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
