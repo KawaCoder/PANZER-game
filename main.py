@@ -46,6 +46,12 @@ clock = pygame.time.Clock()
 alpha=335
 vitesse_initiale_lancer=10
 
+
+# Gestion du Zombax
+ZManager = zombie_manager(pygame)
+print(ZManager.getZombies())
+
+
 # Boucle principale
 while True:
     for event in pygame.event.get():
@@ -56,6 +62,8 @@ while True:
             if event.key == pygame.K_RIGHT and alpha>270:
                 alpha-=5
                 canon_image = pygame.transform.rotate(canon_image, -5)
+            if event.key == pygame.K_UP:
+                print(ZManager.getZombies())
             
         if event.type == pygame.QUIT:
             pygame.quit()
