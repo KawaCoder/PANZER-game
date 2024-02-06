@@ -33,7 +33,7 @@ clock = pygame.time.Clock()
 
 # paramètre du canon
 alpha=45
-v0=10
+vitesse_initiale_lancer=10
 
 coord_canon=((100,100),(100,150),(125,150),(150,80))
 
@@ -63,7 +63,7 @@ while True:
 
     # Dessiner le canon
     pygame.draw.rect(screen, canon_color, (0, height-floor_height-50, 100,50))
-    pygame.draw.polygon(screen, canon_color, coord_canon)
+    
 
     # Afficher le zombie
     screen.blit(zombie_image, (zombie_pos[0], zombie_pos[1]))
