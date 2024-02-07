@@ -1,5 +1,6 @@
 import time 
 from zombax import zombax
+import random
 class zombie_manager:
 
     def __init__(self, pygame_instance):
@@ -15,7 +16,7 @@ class zombie_manager:
     def timer(self, n): 
         while n > 0: 
             n -= 1
-            time.sleep(3)
+            time.sleep(random.randint(1, 2))
             self.zombie_list.append(zombax(self.zombie_speed, self.pygame_instance))
             
     def getZombies(self):
