@@ -3,6 +3,8 @@ import sys
 from zombie_manager import zombie_manager
 from zombax import zombax
 from pygame.locals import *
+import math
+import time as t
 
 
 # Initialisation de Pygame
@@ -35,13 +37,13 @@ zombie_image = pygame.transform.scale(zombie_image, (zombie_width, zombie_height
 # Paramètre du canon 
 canon_image_path = "assets/canon/canon_tuyaux.png"
 canon_width, canon_height = 50, 100
-canon_pos = [75,height-floor_height-100]
+canon_pos = [100,height-floor_height-50]
 a = pygame.draw.rect(screen, (0,0,0), (150,150,150,150))
+boulet_image_path = "assets/canon/boulet.png"
 
 
 # Chargement de l'image du canon
 canon_image = pygame.image.load(canon_image_path).convert_alpha()
-cannon_image = pygame.transform.rotate(canon_image, -80)
 rect_canon = canon_image.get_rect(center=(canon_pos))
 
 # Création de l'objet Clock
@@ -51,18 +53,15 @@ clock = pygame.time.Clock()
 alpha=315
 vitesse_initiale_lancer=10
 
+# Gestion du Zombax
+ZManager = zombie_manager(pygame)
+print(ZManager.getZombies())
 
 # Gestion du Zombax
 ZManager = zombie_manager(pygame)
 print(ZManager.getZombies())
 
-
-
-# Gestion du Zombax
-ZManager = zombie_manager(pygame)
-print(ZManager.getZombies())
-
-
+# fonction pour faire une rotation propre sans devenir un TUC
 def rot_center(image, angle):
     rect_origine = image.get_rect()
     rotate_image = pygame.transform.rotate(image, angle)
@@ -72,13 +71,31 @@ def rot_center(image, angle):
     return rotate_image
 canon_mouv = rot_center(canon_image, alpha)
 
+# fonction pour créer un boulet (pour eviter de reset un boulet déjà lancé)
+def creation_boulet():
+    boulet_image = pygame.image.load(boulet_image_path).convert_alpha()
+    rect_boulet = boulet_image.get_rect(center=(canon_pos))
+    return boulet_image, rect_boulet
+afficher_boulets=0
+
+def lancer(boulet, alpha, vitesse_initiale_lancer, g, t0, canon_pos):
+    # vecteur position
+    BOx=(vitesse_initiale_lancer*math.cos(alpha))*(t.time()-t0)+canon_pos[0]
+    BOy=-1/2*g*(t.time()-t0)**2+(vitesse_initiale_lancer*math.sin(alpha))+canon_pos[1]
+    coord_boulet=(BOx,BOy)
+    return coord_boulet
+
+
 # Boucle principale
 while True:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-
             if event.key == pygame.K_UP:
                 print(ZManager.getZombies())
+            if event.key == pygame.K_SPACE:
+                nouveau_boulet, nouveau_rect_boulet =creation_boulet()
+                screen.blit(nouveau_boulet, rect_canon)
+                afficher_boulets=1
             
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -116,6 +133,10 @@ while True:
 
     # Afficher le zombie
     screen.blit(zombie_image, (zombie_pos[0], zombie_pos[1]))
+
+    # afficher les boulets
+    if afficher_boulets==1:
+        screen.blit(nouveau_boulet, lancer(nouveau_boulet, alpha, vitesse_initiale_lancer, 9.8, t.time(),canon_pos))
 
     # Mettez à jour l'affichage
     pygame.display.flip()
