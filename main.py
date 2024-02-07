@@ -98,24 +98,22 @@ while True:
             alpha = 270
         canon_mouv = rot_center(canon_image, alpha)
 
-    # Déplacer le zombie vers la gauche
-    zombie_pos[0] -= zombie_speed
-    if zombie_pos[0] < 0:
-        zombie_pos[0] = width - zombie_width
-
     # Dessiner le ciel
     screen.fill(sky_color)
 
     # Dessiner le sol
     pygame.draw.rect(screen, floor_color, (0, height - floor_height, width, floor_height))
 
+
     # Dessiner le canon
     pygame.draw.rect(screen, canon_color, (50, height-floor_height-50, 100,50))
     screen.blit(canon_mouv, rect_canon)
     
 
-    # Afficher le zombie
-    screen.blit(zombie_image, (zombie_pos[0], zombie_pos[1]))
+    # Afficher les zombies
+    ZManager.moveZombies()
+    for zombax in ZManager.getZombies():
+        screen.blit(zombie_image, (zombax.getPos()[0], zombax.getPos()[1]))
 
     # Mettez à jour l'affichage
     pygame.display.flip()
