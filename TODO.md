@@ -14,4 +14,5 @@
     - [ ] Système de tir
         - [ ] Physique
         - [ ]  Twingo / 100 (optionnel)
-    - [-] Zombies qui marchent
+    - [x] Zombies qui marchent
+        - [x] Zombie Manager

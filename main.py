@@ -6,11 +6,10 @@ from pygame.locals import *
 import math
 import time as t
 
-
 # Initialisation de Pygame
 pygame.init()
 
-# Obtenez les dimensions de l'écran
+# Obtenir les dimensions de l'écran
 screen_info = pygame.display.Info()
 width, height = screen_info.current_w, screen_info.current_h
 
@@ -40,7 +39,6 @@ canon_width, canon_height = 50, 100
 canon_pos = [100,height-floor_height-50]
 a = pygame.draw.rect(screen, (0,0,0), (150,150,150,150))
 boulet_image_path = "assets/canon/boulet.png"
-
 
 # Chargement de l'image du canon
 canon_image = pygame.image.load(canon_image_path).convert_alpha()
@@ -85,7 +83,6 @@ def lancer(boulet, alpha, vitesse_initiale_lancer, g, t0, canon_pos):
     coord_boulet=(BOx,BOy)
     return coord_boulet
 
-
 # Boucle principale
 while True:
     for event in pygame.event.get():
@@ -104,7 +101,7 @@ while True:
     keystate = pygame.key.get_pressed()
 
     if keystate[K_LEFT]: # rotate conterclockwise
-        alpha+=2
+        alpha += 2
         if alpha > 360:
             alpha = 360
         canon_mouv = rot_center(canon_image, alpha)
@@ -121,11 +118,9 @@ while True:
     # Dessiner le sol
     pygame.draw.rect(screen, floor_color, (0, height - floor_height, width, floor_height))
 
-
     # Dessiner le canon
     pygame.draw.rect(screen, canon_color, (50, height-floor_height-50, 100,50))
     screen.blit(canon_mouv, rect_canon)
-    
 
     # Afficher les zombies
     ZManager.moveZombies()

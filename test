@@ -1,0 +1,9 @@
+import pygame
+class Fist(pygame.sprite.Sprite):
+
+    def update(self):
+        "move the fist based on the mouse position"
+        pos = pygame.mouse.get_pos()
+        self.rect.midtop = pos
+        if self.punching:
+            self.rect.move_ip(5, 10)
