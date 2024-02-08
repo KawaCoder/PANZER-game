@@ -40,6 +40,8 @@ canon_width, canon_height = 50, 100
 canon_pos = [100,height-floor_height-50]
 a = pygame.draw.rect(screen, (0,0,0), (150,150,150,150))
 boulet_image_path = "assets/canon/boulet.png"
+g=9.8
+launch=False
 
 
 # Chargement de l'image du canon
@@ -51,7 +53,7 @@ clock = pygame.time.Clock()
 
 # paramètre du lancer
 alpha=315
-vitesse_initiale_lancer=10
+vitesse_initiale_lancer=100
 
 # Gestion du Zombax
 ZManager = zombie_manager(pygame)
@@ -78,12 +80,22 @@ def creation_boulet():
     return boulet_image, rect_boulet
 afficher_boulets=0
 
-def lancer(boulet, alpha, vitesse_initiale_lancer, g, t0, canon_pos):
+"""def lancer(boulet, alpha, vitesse_initiale_lancer, g, t0, canon_pos):
     # vecteur position
     BOx=(vitesse_initiale_lancer*math.cos(alpha))*(t.time()-t0)+canon_pos[0]
     BOy=-1/2*g*(t.time()-t0)**2+(vitesse_initiale_lancer*math.sin(alpha))+canon_pos[1]
     coord_boulet=(BOx,BOy)
+    return coord_boulet"""
+
+
+def lancer(alpha, v0, g, x, w0, h0):
+    # Convertir l'angle alpha en radians
+    alpha = math.radians(alpha)
+    alpha = - alpha
+    y=(1/2)*g*((x-w0)/(v0*math.sin(alpha)))**2-(v0*math.cos(alpha))*((x-w0)/(v0*math.sin(alpha)))+h0
+    coord_boulet=(x,y)
     return coord_boulet
+indice_lancer=0
 
 
 # Boucle principale
@@ -95,7 +107,7 @@ while True:
             if event.key == pygame.K_SPACE:
                 nouveau_boulet, nouveau_rect_boulet =creation_boulet()
                 screen.blit(nouveau_boulet, rect_canon)
-                afficher_boulets=1
+                launch=True
             
         if event.type == pygame.QUIT:
             pygame.quit()
@@ -133,8 +145,10 @@ while True:
         screen.blit(zombie_image, (zombax.getPos()[0], zombax.getPos()[1]))
 
     # afficher les boulets
-    if afficher_boulets==1:
-        screen.blit(nouveau_boulet, lancer(nouveau_boulet, alpha, vitesse_initiale_lancer, 9.8, t.time(),canon_pos))
+    if launch:
+        indice_lancer+=15
+        if indice_lancer<width:
+            screen.blit(nouveau_boulet, lancer(alpha, vitesse_initiale_lancer, g, indice_lancer, canon_pos[0], canon_pos[1]))
 
     # Mettez à jour l'affichage
     pygame.display.flip()
