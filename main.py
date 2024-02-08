@@ -95,7 +95,7 @@ def lancer(alpha, v0, g, x, w0, h0):
     y=(1/2)*g*((x-w0)/(v0*math.sin(alpha)))**2-(v0*math.cos(alpha))*((x-w0)/(v0*math.sin(alpha)))+h0
     coord_boulet=(x,y)
     return coord_boulet
-indice_lancer=0
+indice_lancer=75
 
 
 # Boucle principale
