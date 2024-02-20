@@ -12,7 +12,8 @@
 
 - [ ] Jeu principal
     - [ ] Système de tir
-        - [ ] Physique
+        - [-] Physique
+        - [ ] Collisions avec les zombies
         - [ ]  Twingo / 100 (optionnel)
     - [x] Zombies qui marchent
         - [x] Zombie Manager
