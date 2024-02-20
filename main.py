@@ -102,8 +102,9 @@ while True:
             if event.key == pygame.K_UP:
                 print(ZManager.getZombies())
             if event.key == pygame.K_SPACE:
-                nouveau_boulet, nouveau_rect_boulet =creation_boulet()
-                screen.blit(nouveau_boulet, rect_canon)
+                nouveau_boulet = pygame.image.load(boulet_image_path).convert_alpha()
+                nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
+                screen.blit(nouveau_boulet, nouveau_rect_boulet)
                 launch=True
             
         if event.type == pygame.QUIT:
@@ -143,7 +144,14 @@ while True:
     if launch:
         indice_lancer+=15
         if indice_lancer<width:
-            screen.blit(nouveau_boulet, lancer(alpha, vitesse_initiale_lancer, g, indice_lancer, canon_pos[0], canon_pos[1]))
+            if not lancer(alpha, vitesse_initiale_lancer, g, indice_lancer, canon_pos[0], canon_pos[1])[1]>height-floor_height:
+                screen.blit(nouveau_boulet, lancer(alpha, vitesse_initiale_lancer, g, indice_lancer, canon_pos[0], canon_pos[1]))
+            elif lancer(alpha, vitesse_initiale_lancer, g, indice_lancer, canon_pos[0], canon_pos[1])[1]>height-floor_height:
+                launch=False
+                nouveau_boulet=None
+                nouveau_rect_boulet=None
+                indice_lancer=75
+        
 
     # Mettez à jour l'affichage
     pygame.display.flip()
