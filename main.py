@@ -5,6 +5,7 @@ from zombax import zombax
 from pygame.locals import *
 import math
 import time as t
+import random
 
 # Initialisation de Pygame
 pygame.init()
@@ -39,6 +40,7 @@ canon_width, canon_height = 50, 100
 canon_pos = [100,height-floor_height-50]
 a = pygame.draw.rect(screen, (0,0,0), (150,150,150,150))
 boulet_image_path = "assets/canon/boulet.png"
+TWINGO_path = "assets/canon/twingo.png"
 g=9.8
 launch=False
 
@@ -102,10 +104,16 @@ while True:
             if event.key == pygame.K_UP:
                 print(ZManager.getZombies())
             if event.key == pygame.K_SPACE:
-                nouveau_boulet = pygame.image.load(boulet_image_path).convert_alpha()
-                nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
-                screen.blit(nouveau_boulet, nouveau_rect_boulet)
-                launch=True
+                if random.randint(0,100) == 100:
+                    nouveau_boulet = pygame.image.load(TWINGO_path).convert_alpha()
+                    nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
+                    screen.blit(nouveau_boulet, nouveau_rect_boulet)
+                    launch=True
+                else:
+                    nouveau_boulet = pygame.image.load(boulet_image_path).convert_alpha()
+                    nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
+                    screen.blit(nouveau_boulet, nouveau_rect_boulet)
+                    launch=True
             
         if event.type == pygame.QUIT:
             pygame.quit()

@@ -14,6 +14,6 @@
     - [ ] Système de tir
         - [-] Physique
         - [ ] Collisions avec les zombies
-        - [ ]  Twingo / 100 (optionnel)
+        - [-]  Twingo / 100 (sans physique différente car physique indépendante de la masse)
     - [x] Zombies qui marchent
         - [x] Zombie Manager
