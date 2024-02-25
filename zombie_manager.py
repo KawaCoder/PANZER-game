@@ -15,6 +15,7 @@ class zombie_manager:
         from threading import Thread 
         t = Thread(target = self.timer, args =(10, )) 
         t.start()  
+
   
     def timer(self, n): 
         while n > 0: 
@@ -29,4 +30,6 @@ class zombie_manager:
         for zombax in self.getZombies():
             zombax.getPos()[0] -= zombax.getSpeed()
             if zombax.getPos()[0] < 0:
+                self.getZombies().remove(zombax)
                 del zombax
+
