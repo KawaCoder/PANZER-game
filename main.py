@@ -5,7 +5,11 @@ from zombax import zombax
 from pygame.locals import *
 import math
 import time as t
+from menu import Menu
 import random
+
+menu = Menu()
+menu.menu()
 
 # Initialisation de Pygame
 pygame.init()
@@ -27,7 +31,9 @@ zombie_speed = 5
 zombie_pos = [width - zombie_width, height - floor_height - zombie_height]
 
 # Création de la fenêtre en plein écran
-screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)
+screen = pygame.display.set_mode((width, height))  # Utilisez self.width et self.height
+
+#pygame.display.set_mode((width, height), pygame.FULLSCREEN)
 pygame.display.set_caption("Mon jeu Pygame - Zombie Shooter")
 
 # Chargement de l'image du zombie
@@ -118,6 +124,7 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
+
 
     keystate = pygame.key.get_pressed()
 
