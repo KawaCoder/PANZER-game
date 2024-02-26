@@ -23,9 +23,14 @@ floor_color = (34, 139, 34)  # Vert foncé (couleur de l'herbe)
 sky_color = (0, 255, 255)  # Cyan (couleur du ciel)
 canon_color = (132, 132, 132) # gris (couleur du canon)
 
+# Initialisation du mixeur
+pygame.mixer.init()
+pygame.mixer.music.load("assets/canon.mp3")
+
+
 # Paramètres du zombie
-zombie_image_path = "assets/zombax/zombie.png"
-zombie_width, zombie_height = 50, 50
+zombie_image_path = "assets/nazi.png"
+zombie_width, zombie_height = 200, 200
 zombie_speed = 5
 zombie_pos = [width - zombie_width, height - floor_height - zombie_height]
 
@@ -50,6 +55,9 @@ TWINGO_path = "assets/canon/twingo.png"
 g=9.8
 launch=False
 
+# Score
+score = 0
+
 # Chargement de l'image du canon
 canon_image = pygame.image.load(canon_image_path).convert_alpha()
 rect_canon = canon_image.get_rect(center=(canon_pos))
@@ -61,11 +69,16 @@ clock = pygame.time.Clock()
 alpha=315
 vitesse_initiale_lancer=100
 
+# Texte du score
+font = pygame.font.SysFont(None, 75)
+score_texte = font.render("Score: ", True, (0, 0, 0))
+score_rect = score_texte.get_rect(center=(100, 100))
+
 # Gestion du Zombax
 ZManager = zombie_manager(pygame)
 print(ZManager.getZombies())
 
-# Gestion du Zo
+# Gestion du Zombie triple mooonstre
 # Paramètres de la fenêtre
 floor_height = 100  # Hautembax
 ZManager = zombie_manager(pygame)
@@ -83,7 +96,6 @@ canon_mouv = rot_center(canon_image, alpha)
 
 bg = pygame.image.load("assets/ciel.jpg")
 bg = pygame.transform.scale(bg, (width, height))
-#INSIDE OF THE GAME LOOP
 
 # fonction pour créer un boulet (pour eviter de reset un boulet déjà lancé)
 def creation_boulet():
@@ -99,7 +111,7 @@ afficher_boulets=0
     coord_boulet=(BOx,BOy)
     return coord_boulet"""
 
-
+test = [0, 0]
 def lancer(alpha, v0, g, x, w0, h0):
     # Convertir l'angle alpha en radians
     alpha = math.radians(alpha)
@@ -113,20 +125,24 @@ indice_lancer=75
 while True:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_UP:
+            if event.key == pygame.K_UP:                
                 print(ZManager.getZombies())
             if event.key == pygame.K_SPACE:
-                if random.randint(0,15) == 15:
-                    nouveau_boulet = pygame.image.load(TWINGO_path).convert_alpha()
-                    nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
-                    screen.blit(nouveau_boulet, nouveau_rect_boulet)
-                    launch=True
-                else:
-                    nouveau_boulet = pygame.image.load(boulet_image_path).convert_alpha()
-                    nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
-                    screen.blit(nouveau_boulet, nouveau_rect_boulet)
-                    launch=True
-            
+                if(not launch):
+
+                    pygame.mixer.music.play()
+                    pygame.event.wait()
+                    if random.randint(0,15) == 1:
+                        nouveau_boulet = pygame.image.load(TWINGO_path).convert_alpha()
+                        nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
+                        screen.blit(nouveau_boulet, nouveau_rect_boulet)
+                        launch=True
+                    else:
+                        nouveau_boulet = pygame.image.load(boulet_image_path).convert_alpha()
+                        nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
+                        screen.blit(nouveau_boulet, nouveau_rect_boulet)
+                        launch=True
+                
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
@@ -134,24 +150,28 @@ while True:
 
     if launch==True:
         for zombie in ZManager.getZombies():
-                zombie_x, zombie_y = zombie.getPos()  # Position du zombie
-                zombie_rect = pygame.Rect(zombie_x, zombie_y, zombie_width, zombie_height)  # Rectangle de collision du zombie
-                if nouveau_rect_boulet.colliderect(zombie_rect):  # Vérifier la collision entre les deux rectangles
-                    ZManager.getZombies().remove(zombie)  # Supprimer le zombie touché
+            zombie_x, zombie_y = zombie.getPos()  # Position du zombie
+            zombie_rect = pygame.Rect(zombie_x, zombie_y, 50, 50)  # Rectangle de collision du zombie
+            boulet_rect = pygame.Rect(test[0], test[1], 30, 30)
+            if boulet_rect.colliderect(zombie_rect):  # Vérifier la collision entre les deux rectangles
+                ZManager.getZombies().remove(zombie)  # Supprimer le zombie touché
+                print("Naah triple mooonstre")
+                score += 1
 
     keystate = pygame.key.get_pressed()
+    if(not launch):
+        if keystate[K_LEFT]: # rotate conterclockwise
+            
+            alpha += 2
+            if alpha > 360:
+                alpha = 360
+            canon_mouv = rot_center(canon_image, alpha)
 
-    if keystate[K_LEFT]: # rotate conterclockwise
-        alpha += 2
-        if alpha > 360:
-            alpha = 360
-        canon_mouv = rot_center(canon_image, alpha)
-
-    if keystate[K_RIGHT]: # rotate clockwise
-        alpha-=2
-        if alpha < 270:
-            alpha = 270
-        canon_mouv = rot_center(canon_image, alpha)
+        if keystate[K_RIGHT]: # rotate clockwise
+            alpha-=2
+            if alpha < 270:
+                alpha = 270
+            canon_mouv = rot_center(canon_image, alpha)
 
     # Dessiner le ciel
     screen.blit(bg, (0, 0))
@@ -159,6 +179,13 @@ while True:
 
     # Dessiner le sol
     pygame.draw.rect(screen, floor_color, (0, height - floor_height, width, floor_height))
+
+
+    # Dessiner le score
+    score_texte = font.render(f"Score: {score}", True, (0, 0, 0))
+
+    screen.blit(score_texte, score_rect)
+
 
     # Dessiner le canon
     canon = pygame.image.load(brouette_path).convert_alpha()
@@ -175,7 +202,8 @@ while True:
         indice_lancer+=15
         if indice_lancer<width:
             if not lancer(alpha, vitesse_initiale_lancer, g, indice_lancer, canon_pos[0], canon_pos[1])[1]>height-floor_height:
-                screen.blit(nouveau_boulet, lancer(alpha, vitesse_initiale_lancer, g, indice_lancer, canon_pos[0], canon_pos[1]))
+                test = lancer(alpha, vitesse_initiale_lancer, g, indice_lancer, canon_pos[0], canon_pos[1])
+                screen.blit(nouveau_boulet, test)
             elif lancer(alpha, vitesse_initiale_lancer, g, indice_lancer, canon_pos[0], canon_pos[1])[1]>height-floor_height:
                 launch=False
                 nouveau_boulet=None

