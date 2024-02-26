@@ -40,6 +40,7 @@ zombie_image = pygame.image.load(zombie_image_path)
 zombie_image = pygame.transform.scale(zombie_image, (zombie_width, zombie_height))
 
 # Paramètre du canon 
+brouette_path = "assets/canon/brouette.png"
 canon_image_path = "assets/canon/canon_tuyaux.png"
 canon_width, canon_height = 50, 100
 canon_pos = [100,height-floor_height-50]
@@ -161,8 +162,9 @@ while True:
     pygame.draw.rect(screen, floor_color, (0, height - floor_height, width, floor_height))
 
     # Dessiner le canon
-    pygame.draw.rect(screen, canon_color, (50, height-floor_height-50, 100,50))
+    canon = pygame.image.load(brouette_path).convert_alpha()
     screen.blit(canon_mouv, rect_canon)
+    screen.blit(canon, [25,height-floor_height-50])
 
     # Afficher les zombies
     ZManager.moveZombies()
