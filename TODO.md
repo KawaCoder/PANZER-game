@@ -1,6 +1,6 @@
 ## Choses à inclure:
 
-- [ ] Menu
+- [x] Menu
 - [ ] Graphismes
     - [ ] Sprites
         - [ ] Zombies qui marchent

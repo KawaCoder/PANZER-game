@@ -110,7 +110,7 @@ while True:
             if event.key == pygame.K_UP:
                 print(ZManager.getZombies())
             if event.key == pygame.K_SPACE:
-                if random.randint(0,100) == 100:
+                if random.randint(0,15) == 15:
                     nouveau_boulet = pygame.image.load(TWINGO_path).convert_alpha()
                     nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
                     screen.blit(nouveau_boulet, nouveau_rect_boulet)
