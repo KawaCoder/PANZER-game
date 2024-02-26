@@ -132,13 +132,12 @@ while True:
             sys.exit()
 
 
-
-    """for zombie in ZManager.getZombies():
+    if launch==True:
+        for zombie in ZManager.getZombies():
                 zombie_x, zombie_y = zombie.getPos()  # Position du zombie
                 zombie_rect = pygame.Rect(zombie_x, zombie_y, zombie_width, zombie_height)  # Rectangle de collision du zombie
                 if nouveau_rect_boulet.colliderect(zombie_rect):  # Vérifier la collision entre les deux rectangles
                     ZManager.getZombies().remove(zombie)  # Supprimer le zombie touché
-"""
 
     keystate = pygame.key.get_pressed()
 
