@@ -80,6 +80,10 @@ def rot_center(image, angle):
     return rotate_image
 canon_mouv = rot_center(canon_image, alpha)
 
+bg = pygame.image.load("assets/ciel.jpg")
+bg = pygame.transform.scale(bg, (width, height))
+#INSIDE OF THE GAME LOOP
+
 # fonction pour créer un boulet (pour eviter de reset un boulet déjà lancé)
 def creation_boulet():
     boulet_image = pygame.image.load(boulet_image_path).convert_alpha()
@@ -128,12 +132,12 @@ while True:
 
 
 
-    for zombie in ZManager.getZombies():
+    """for zombie in ZManager.getZombies():
                 zombie_x, zombie_y = zombie.getPos()  # Position du zombie
                 zombie_rect = pygame.Rect(zombie_x, zombie_y, zombie_width, zombie_height)  # Rectangle de collision du zombie
                 if nouveau_rect_boulet.colliderect(zombie_rect):  # Vérifier la collision entre les deux rectangles
                     ZManager.getZombies().remove(zombie)  # Supprimer le zombie touché
-
+"""
 
     keystate = pygame.key.get_pressed()
 
@@ -150,7 +154,8 @@ while True:
         canon_mouv = rot_center(canon_image, alpha)
 
     # Dessiner le ciel
-    screen.fill(sky_color)
+    screen.blit(bg, (0, 0))
+    #screen.fill(sky_color)
 
     # Dessiner le sol
     pygame.draw.rect(screen, floor_color, (0, height - floor_height, width, floor_height))
