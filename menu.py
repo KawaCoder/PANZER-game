@@ -1,64 +1,81 @@
 import pygame
 import sys
+import os
 
 class Menu:
     def __init__(self):
-        # Initialisation de Pygame
         pygame.init()
 
-        # Paramètres de la fenêtre
+        # Initialize screen
         screen_info = pygame.display.Info()
         self.width, self.height = screen_info.current_w, screen_info.current_h
-        self.screen = pygame.display.set_mode((self.width, self.height), pygame.FULLSCREEN)  # Utilisez self.width et self.height
+        self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("Menu d'accueil")
 
-        # Couleurs
+        # Load frames
+        self.gif_frames = []
+        frames_directory = "assets/frames_output"  # Directory containing individual frames
+        for filename in sorted(os.listdir(frames_directory)):
+            frame_path = os.path.join(frames_directory, filename)
+            if frame_path.endswith('.png'):
+                frame_image = pygame.image.load(frame_path).convert_alpha()  # Load frame
+                self.gif_frames.append(frame_image)
+
+        # Initialize frame index
+        self.frame_index = 0
+        self.frame_count = len(self.gif_frames)
+
+        # Colors
         self.WHITE = (255, 255, 255)
         self.BLACK = (0, 0, 0)
         self.RED = (255, 0, 0)
 
-        # Police de texte
+        # Font
         self.font = pygame.font.SysFont(None, 50)
 
-        # Variables pour les rectangles des boutons
+        # Button rectangles
         self.demarrer_rect = None
         self.quitter_rect = None
 
     def afficher_menu(self):
-        self.screen.fill(self.WHITE)
-        
-        # Titre du jeu
+        # Display current frame
+        self.screen.blit(self.gif_frames[self.frame_index], (0, 0))
+        self.frame_index = (self.frame_index + 1) % self.frame_count
+
+        # Title
         titre_texte = self.font.render("PANZER", True, self.RED)
-        titre_rect = titre_texte.get_rect(center=(self.width//2, self.height//3))
+        titre_rect = titre_texte.get_rect(center=(self.width // 2, self.height // 3))
         self.screen.blit(titre_texte, titre_rect)
-        
-        # Bouton de démarrage
+
+        # Start button
         demarrer_texte = self.font.render("Démarrer", True, self.BLACK)
-        self.demarrer_rect = demarrer_texte.get_rect(center=(self.width//2, self.height//2))
+        self.demarrer_rect = demarrer_texte.get_rect(center=(self.width // 2, self.height // 2))
         self.screen.blit(demarrer_texte, self.demarrer_rect)
-        
-        # Bouton de quitter
+
+        # Quit button
         quitter_texte = self.font.render("Quitter", True, self.BLACK)
-        self.quitter_rect = quitter_texte.get_rect(center=(self.width//2, self.height//1.5))
+        self.quitter_rect = quitter_texte.get_rect(center=(self.width // 2, self.height // 1.5))
         self.screen.blit(quitter_texte, self.quitter_rect)
-        
+
         pygame.display.flip()
 
     def menu(self):
+        clock = pygame.time.Clock()
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    # Vérifie si le clic est sur le bouton "Démarrer"
                     if self.demarrer_rect.collidepoint(event.pos):
-                        # Lancer le jeu ou passer à l'écran de jeu
                         return True
                         pygame.quit()
-                    # Vérifie si le clic est sur le bouton "Quitter"
                     elif self.quitter_rect.collidepoint(event.pos):
                         pygame.quit()
                         sys.exit()
 
+            clock.tick(30)
             self.afficher_menu()
+
+menu = Menu()
+menu.menu()
