@@ -30,7 +30,7 @@ zombie_speed = 5
 zombie_pos = [width - zombie_width, height - floor_height - zombie_height]
 
 # Création de la fenêtre en plein écran
-screen = pygame.display.set_mode((width, height))  # Utilisez self.width et self.height
+screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)  # Utilisez self.width et self.height
 
 #pygame.display.set_mode((width, height), pygame.FULLSCREEN)
 pygame.display.set_caption("Mon jeu Pygame - Zombie Shooter")

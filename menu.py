@@ -19,6 +19,8 @@ class Menu:
             frame_path = os.path.join(frames_directory, filename)
             if frame_path.endswith('.png'):
                 frame_image = pygame.image.load(frame_path).convert_alpha()  # Load frame
+                frame_image = pygame.transform.scale(frame_image, (self.width, self.height))
+                
                 self.gif_frames.append(frame_image)
 
         # Initialize frame index
@@ -41,11 +43,6 @@ class Menu:
         # Display current frame
         self.screen.blit(self.gif_frames[self.frame_index], (0, 0))
         self.frame_index = (self.frame_index + 1) % self.frame_count
-
-        # Title
-        titre_texte = self.font.render("PANZER", True, self.RED)
-        titre_rect = titre_texte.get_rect(center=(self.width // 2, self.height // 3))
-        self.screen.blit(titre_texte, titre_rect)
 
         # Start button
         demarrer_texte = self.font.render("Démarrer", True, self.BLACK)
@@ -74,8 +71,6 @@ class Menu:
                         pygame.quit()
                         sys.exit()
 
-            clock.tick(30)
+            clock.tick(20)
             self.afficher_menu()
 
-menu = Menu()
-menu.menu()
