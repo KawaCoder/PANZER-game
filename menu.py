@@ -12,6 +12,13 @@ class Menu:
         self.screen = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption("Menu d'accueil")
 
+        # RTX logo
+        self.rtx_logo = pygame.image.load("assets/RTX.png")
+        self.rtx_logo = pygame.transform.scale(self.rtx_logo, (140, 110))
+        
+        self.rtx_position = (self.width // 1.4, self.height // 1.8)
+        self.rtx_rect = self.rtx_logo.get_rect(center=self.rtx_position)
+
         # Load frames
         self.gif_frames = []
         frames_directory = "assets/frames_output"  # Directory containing individual frames
@@ -31,6 +38,7 @@ class Menu:
         self.WHITE = (255, 255, 255)
         self.BLACK = (0, 0, 0)
         self.RED = (255, 0, 0)
+        self.GREEN = (0, 255, 0)
 
         # Font
         self.font = pygame.font.SysFont(None, 50)
@@ -45,13 +53,19 @@ class Menu:
         self.frame_index = (self.frame_index + 1) % self.frame_count
 
         # Start button
-        demarrer_texte = self.font.render("Démarrer", True, self.BLACK)
+        demarrer_texte = self.font.render("Démarrer", True, self.RED)
         self.demarrer_rect = demarrer_texte.get_rect(center=(self.width // 2, self.height // 2))
         self.screen.blit(demarrer_texte, self.demarrer_rect)
 
+        # Start button SHADERS
+        self.screen.blit(self.rtx_logo, self.rtx_rect)
+        demarrer_rtx_texte = self.font.render("Démarrer avec Nvidia RTX", True, self.GREEN)
+        self.demarrer_rtx_rect = demarrer_rtx_texte.get_rect(center=(self.width // 2, self.height // 1.7))
+        self.screen.blit(demarrer_rtx_texte, self.demarrer_rtx_rect)
+
         # Quit button
         quitter_texte = self.font.render("Quitter", True, self.BLACK)
-        self.quitter_rect = quitter_texte.get_rect(center=(self.width // 2, self.height // 1.5))
+        self.quitter_rect = quitter_texte.get_rect(center=(self.width // 2, self.height // 1.3))
         self.screen.blit(quitter_texte, self.quitter_rect)
 
         pygame.display.flip()
@@ -65,8 +79,9 @@ class Menu:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if self.demarrer_rect.collidepoint(event.pos):
-                        return True
-                        pygame.quit()
+                        return(False)
+                    elif self.demarrer_rtx_rect.collidepoint(event.pos):
+                        return(True)
                     elif self.quitter_rect.collidepoint(event.pos):
                         pygame.quit()
                         sys.exit()
