@@ -14,6 +14,7 @@ rtx = menu.menu()
 
 if(rtx):
     # Chemins de fichiers des assets
+    herbe_path = "assets/bg/herbe.jpeg"
     brouette_path = "assets/canon/brouette.png"
     rtx_on_path = "assets/rtx_on.png"
     canon_image_path = "assets/canon/canon_tuyaux.png"
@@ -30,6 +31,7 @@ if(rtx):
 
 else:
     # Chemins de fichiers des assets
+    herbe_path = "assets/bg/herbe.jpeg"
     brouette_path = "assets/canon/brouette.png"
     canon_image_path = "assets/canon/canon_tuyaux.png"
     boulet_image_path = "assets/canon/boulet.png"
@@ -64,7 +66,7 @@ pygame.mixer.music.load(canon_sound_path)
 
 
 # Paramètres du zombie
-zombie_width, zombie_height = 200, 200
+zombie_width, zombie_height = 250, 250
 zombie_speed = 5
 zombie_pos = [width - zombie_width, height - floor_height - zombie_height]
 
@@ -95,15 +97,17 @@ rect_canon = canon_image.get_rect(center=(canon_pos))
 hit_image = pygame.image.load(hitmarker_path)
 hit_image = pygame.transform.scale(hit_image, (50, 50))
 
-
 # Chargement de l'image de fond
 bg = pygame.image.load(ciel_path)
 bg = pygame.transform.scale(bg, (width, height))
 
+# Chargement de l'herbe
+herbe = pygame.image.load(herbe_path)
+herbe = pygame.transform.scale(herbe, (width, 200))
+herbe_rect = herbe.get_rect(center=(width // 2, height))
 
 # Chargement de l'image de la brouette
 canon = pygame.image.load(brouette_path).convert_alpha()
-
 
 # Création de l'objet Clock
 clock = pygame.time.Clock()
@@ -217,11 +221,13 @@ while True:
 
     # Dessiner le ciel
     screen.blit(bg, (0, 0))
-    #screen.fill(sky_color)
 
     # Dessiner le sol
-    pygame.draw.rect(screen, floor_color, (0, height - floor_height, width, floor_height))
-
+    if(rtx):
+        screen.blit(herbe, herbe_rect)
+    else:
+        pygame.draw.rect(screen, floor_color, (0, height - floor_height, width, floor_height))
+        
     # Afficher le RTX_on
     if(rtx):
         screen.blit(rtx_on, rtx_rect)
