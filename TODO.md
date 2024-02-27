@@ -1,19 +1,17 @@
 ## Choses à inclure:
 
-- [ ] Menu
-- [ ] Graphismes
-    - [ ] Sprites
-        - [ ] Zombies qui marchent
-        - [ ] Zombies qui volent ou avion (optionnel)
-        - [ ] Canon (deux parties)
-    - [ ] Texture Sol (optionnel)
-    - [ ] Texture Arrière-plan (optionnel)
+- [X] Menu
+- [X] Graphismes
+    - [X] Sprites
+        - [X] Zombies qui marchent
+        - [-] Canon (deux parties)
+        - [-] brouette
+    - [X] Texture Arrière-plan (optionnel)
 
-
-- [ ] Jeu principal
-    - [ ] Système de tir
+- [X] Jeu principal
+    - [x] Système de tir
         - [-] Physique
-        - [ ] Collisions avec les zombies
+        - [x] Collisions avec les zombies
         - [-]  Twingo / 100 (sans physique différente car physique dépendante de la masse)
     - [x] Zombies qui marchent
         - [x] Zombie Manager
