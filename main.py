@@ -176,7 +176,7 @@ while True:
 
                     pygame.mixer.music.play()
                     pygame.event.wait()
-                    if random.randint(0,15) == 1:
+                    if random.randint(0,5) == 1:
                         nouveau_boulet = pygame.image.load(TWINGO_path).convert_alpha()
                         nouveau_rect_boulet = nouveau_boulet.get_rect(center=(canon_pos))
                         screen.blit(nouveau_boulet, nouveau_rect_boulet)
@@ -194,8 +194,8 @@ while True:
 
     if launch==True:
         for zombie in ZManager.getZombies():
-            zombie_x, zombie_y = zombie.getPos() 
-            zombie_rect = pygame.Rect(zombie_x, zombie_y, 50, 50)  # Rectangle de collision du zombie
+            zombie_x, zombie_y = zombie.getPos()
+            zombie_rect = pygame.Rect(zombie_x, zombie_y, 50, 50)
             boulet_rect = pygame.Rect(position_boulet[0], position_boulet[1], 30, 30)
             if boulet_rect.colliderect(zombie_rect):  # Vérifier la collision entre les deux rectangles
                 print("Naah triple mooonstre")
@@ -227,7 +227,7 @@ while True:
         screen.blit(herbe, herbe_rect)
     else:
         pygame.draw.rect(screen, floor_color, (0, height - floor_height, width, floor_height))
-        
+
     # Afficher le RTX_on
     if(rtx):
         screen.blit(rtx_on, rtx_rect)
