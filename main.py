@@ -8,6 +8,7 @@ import time as t
 from menu import Menu
 import random
 
+afficher_hitbox = False
 
 menu = Menu()
 rtx = menu.menu()
@@ -44,6 +45,12 @@ else:
 # Initialisation de Pygame
 pygame.init()
 
+# Paramètres du jeu
+minspeed = 2
+maxspeed = 5
+minspawnrate = 1
+maxspawnrate = 4
+
 # Obtenir les dimensions de l'écran
 screen_info = pygame.display.Info()
 width, height = screen_info.current_w, screen_info.current_h
@@ -64,19 +71,13 @@ if(rtx):
 pygame.mixer.init()
 pygame.mixer.music.load(canon_sound_path)
 
-
-# Paramètres du zombie
-zombie_width, zombie_height = 250, 250
-zombie_speed = 5
-zombie_pos = [width - zombie_width, height - floor_height - zombie_height]
-
 # Création de la fenêtre en plein écran
 screen = pygame.display.set_mode((width, height), pygame.FULLSCREEN)  # Utilisez self.width et self.height
 pygame.display.set_caption("Mon jeu Pygame - Zombie Shooter")
 
 # Chargement de l'image du zombie
 zombie_image = pygame.image.load(zombie_image_path)
-zombie_image = pygame.transform.scale(zombie_image, (zombie_width, zombie_height))
+zombie_image = pygame.transform.scale(zombie_image, (250, 250))
 
 # Paramètre du canon 
 canon_width, canon_height = 50, 100
@@ -121,13 +122,10 @@ font = pygame.font.SysFont(None, 75)
 score_texte = font.render("Score: ", True, (0, 0, 0))
 score_rect = score_texte.get_rect(center=(100, 100))
 
-# Gestion du Zombax
-ZManager = zombie_manager(pygame)
-
 # Gestion du Zombie triple mooonstre
 # Paramètres de la fenêtre
 floor_height = 100  # Hautembax
-ZManager = zombie_manager(pygame)
+ZManager = zombie_manager(pygame, minspeed, maxspeed, minspawnrate, maxspawnrate)
 
 # fonction pour faire une rotation propre sans devenir un TUC
 def rot_center(image, angle):
@@ -173,7 +171,6 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 if(not launch):
-
                     pygame.mixer.music.play()
                     pygame.event.wait()
                     if random.randint(0,5) == 1:
@@ -191,19 +188,17 @@ while True:
             pygame.quit()
             sys.exit()
 
-
     if launch==True:
         for zombie in ZManager.getZombies():
             zombie_x, zombie_y = zombie.getPos()
-            zombie_rect = pygame.Rect(zombie_x, zombie_y, 50, 50)
+            zombie_rect = pygame.Rect(zombie_x+(250-130)//2, zombie_y, 130, 200)
             boulet_rect = pygame.Rect(position_boulet[0], position_boulet[1], 30, 30)
             if boulet_rect.colliderect(zombie_rect):  # Vérifier la collision entre les deux rectangles
-                print("Naah triple mooonstre")
                 position_hitmark = (zombie_x+50, zombie_y+35)
                 compteur_hitmark = 10
                 score += 1
                 ZManager.getZombies().remove(zombie)  # Supprimer le zombie touché
-
+                print("boulet:", position_boulet, " zombax:",zombie_x, zombie_y )
 
     keystate = pygame.key.get_pressed()
     if(not launch):
@@ -237,7 +232,6 @@ while True:
     score_texte = font.render(f"Score: {score}", True, (0, 0, 0))
     screen.blit(score_texte, score_rect)
 
-
     # Afficher le canon
     screen.blit(canon_mouv, rect_canon)
     screen.blit(canon, [25,height-floor_height-50])
@@ -247,10 +241,12 @@ while True:
         compteur_hitmark -= 1
         screen.blit(hit_image, position_hitmark)
 
-
     # Afficher les zombies
     ZManager.moveZombies()
     for zombax in ZManager.getZombies():
+        if(afficher_hitbox):
+            zombie_x, zombie_y = zombax.getPos()
+            pygame.draw.rect(screen, floor_color, (zombie_x+(250-130)//2, zombie_y, 130, 200))
         screen.blit(zombie_image, (zombax.getPos()[0], zombax.getPos()[1]))
 
     # afficher les boulets
@@ -265,6 +261,7 @@ while True:
                 nouveau_boulet=None
                 nouveau_rect_boulet=None
                 indice_lancer=75
+                position_boulet = [0, 0]
         
 
     # Mettez à jour l'affichage
