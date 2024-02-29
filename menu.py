@@ -4,6 +4,9 @@ import os
 
 class Menu:
     def __init__(self):
+        """
+        Initialise le menu d'accueil du jeu.
+        """
         pygame.init()
 
         # Initialize screen
@@ -48,6 +51,9 @@ class Menu:
         self.quitter_rect = None
 
     def afficher_menu(self):
+        """
+        Affiche le menu d'accueil avec les options disponibles.
+        """
         # Display current frame
         self.screen.blit(self.gif_frames[self.frame_index], (0, 0))
         self.frame_index = (self.frame_index + 1) % self.frame_count
@@ -71,6 +77,12 @@ class Menu:
         pygame.display.flip()
 
     def menu(self):
+        """
+        Fonction principale pour exécuter le menu interactif.
+
+        Returns:
+            bool: True si l'utilisateur sélectionne de démarrer avec Nvidia RTX, False sinon.
+        """
         clock = pygame.time.Clock()
         while True:
             for event in pygame.event.get():

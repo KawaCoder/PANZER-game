@@ -129,6 +129,16 @@ ZManager = zombie_manager(pygame, minspeed, maxspeed, minspawnrate, maxspawnrate
 
 # fonction pour faire une rotation propre sans devenir un TUC
 def rot_center(image, angle):
+    """
+    Fait pivoter une image autour de son centre.
+
+    Args:
+        image (pygame.Surface): L'image à faire pivoter.
+        angle (float): L'angle de rotation en degrés.
+
+    Returns:
+        pygame.Surface: L'image pivotée.
+    """
     rect_origine = image.get_rect()
     rotate_image = pygame.transform.rotate(image, angle)
     rotate_rect = rect_origine.copy()
@@ -140,6 +150,12 @@ canon_mouv = rot_center(canon_image, alpha)
 
 # fonction pour créer un boulet (pour eviter de reset un boulet déjà lancé)
 def creation_boulet():
+    """
+    Crée un boulet pour le canon.
+
+    Returns:
+        Tuple[pygame.Surface, pygame.Rect]: L'image du boulet et son rectangle de collision.
+    """
     boulet_image = pygame.image.load(boulet_image_path).convert_alpha()
     rect_boulet = boulet_image.get_rect(center=(canon_pos))
     return boulet_image, rect_boulet
@@ -154,6 +170,20 @@ afficher_boulets=0
 
 position_boulet = [0, 0]
 def lancer(alpha, v0, g, x, w0, h0):
+    """
+    Calcule la position d'un projectile lancé.
+
+    Args:
+        alpha (float): L'angle de tir en degrés.
+        v0 (float): La vitesse initiale du projectile.
+        g (float): L'accélération due à la gravité.
+        x (int): La position horizontale actuelle du projectile.
+        w0 (int): La position horizontale initiale du canon.
+        h0 (int): La position verticale initiale du canon.
+
+    Returns:
+        Tuple[int, int]: Les coordonnées (x, y) du projectile.
+    """
     # Convertir l'angle alpha en radians
     alpha = math.radians(alpha)
     alpha = - alpha
