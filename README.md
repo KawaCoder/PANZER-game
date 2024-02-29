@@ -1,2 +1,9 @@
 # PANZER-game
-Python Apocalypse Nazi Zombie Eradication Regiment.
+
+  _____                       _   _       ______      ______       _____      
+ |  __ \          /\         | \ | |     |___  /     |  ____|     |  __ \     
+ | |__) |        /  \        |  \| |        / /      | |__        | |__) |    
+ |  ___/        / /\ \       | . ` |       / /       |  __|       |  _  /     
+ | |       _   / ____ \   _  | |\  |  _   / /__   _  | |____   _  | | \ \   _ 
+ |_|      (_) /_/    \_\ (_) |_| \_| (_) /_____| (_) |______| (_) |_|  \_\ (_)
+Python        Apocalypse     Nazi        Zombie    Eradication    Regiment.
